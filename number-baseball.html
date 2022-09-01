@@ -45,7 +45,7 @@
     event.preventDefault(); // 기본 동작 막기
     const value = $input.value;
     $input.value = ''; // 다음 글자 입력 위한 초기화
-    if (checkInput(value)) {
+    if (!checkInput(value)) {
       return;
     }
     if (answer.join('') === value) { // [3, 1, 4, 6] -> '3146'
@@ -57,6 +57,22 @@
       $logs.appendChild(message);
       return;
     }
+    // 몇 스트라이크 몇 볼인지 검사
+    let strike = 0;
+    let ball = 0;
+    // answer: 3146, value: 1234
+    for (let i = 0; i < answer.length; i++) {
+      const index = value.indexOf(answer[i]);
+      if (index > -1) { // 일치하는 숫자 발견
+        if (index === i) { // 자릿수도 같음
+          strike += 1;
+        } else { // 숫자만 같음
+          ball += 1;
+        }
+      }
+    }
+    $logs.append(`${value}: ${strike} 스트라이크 ${ball} 볼`, document.createElement('br'));
+    tries.push(value);
   });
 </script>
 </body>
