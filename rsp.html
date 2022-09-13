@@ -47,7 +47,24 @@
       $computer.style.background = `url(${IMG_URL}) ${rspX[computerChoice]} 0`;
       $computer.style.backgroundSize = 'auto 200px';
     }
-    setInterval(changeComputerHand, 50);
+    let intervalId = setInterval(changeComputerHand, 50);
+    // clickButton 5번 호출, 인터벌 1번, 2번, 3번, 4번, 5번(얘만 intervalId)
+    // 그 다음에 버튼을 클릭하면 5번만 취소
+    let clickable = true;
+    const clickButton = () => {
+      if (clickable) {
+        clearInterval(intervalId);
+        clickable = false;
+        // 점수 계산 및 화면 표시
+        setTimeout(() => {
+          clickable = true;
+          intervalId = setInterval(changeComputerHand, 50);
+        }, 1000);
+      }
+    };
+    $rock.addEventListener('click', clickButton);
+    $scissors.addEventListener('click', clickButton);
+    $paper.addEventListener('click', clickButton);
   </script>
 </body>
 
