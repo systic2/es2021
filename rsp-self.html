@@ -57,7 +57,8 @@
     };
 
     let clickable = true;
-    let score = 0;
+    let myWin = 0;
+    let computerWin = 0;
     const clickButton = () => {
       if (clickable) {
         clearInterval(intervalId);
@@ -77,21 +78,30 @@
         // 2, -1은 승리조건의고, -2, 1은 패배조건, 점수표 참고
         if ([2, -1].includes(diff)) {
           console.log('승리');
-          score += 1;
+          myWin += 1;
           message = '승리'
         } else if ([-2, 1].includes(diff)) {
           console.log('패배');
-          score -= 1;
+          computerWin += 1;
           message = '패배'
         } else if (diff === 0) {
           console.log('무승부');
           message = '무승부'
         }
-        $score.textContent = `${message} 총: ${score}점`;
-        setTimeout(() => {
-          clickable = true;
-          intervalId = setInterval(changeComputerHand, 50);
-        }, 1000);
+        if (computerWin >= 3) {
+          clickable = false;
+          $score.textContent = `컴퓨터 승리 ${computerWin}:${myWin}`;
+        } else if (myWin >= 3) {
+          clickable = false;
+          $score.textContent = `나의 승리 ${myWin}:${computerWin}`;
+        }
+        else {
+          $score.textContent = `${message} 컴퓨터: ${computerWin}승 나: ${myWin}승`;
+          setTimeout(() => {
+            clickable = true;
+            intervalId = setInterval(changeComputerHand, 50);
+          }, 1000);
+        }
       }
     };
     $rock.addEventListener('click', clickButton);
