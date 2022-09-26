@@ -1,0 +1,11 @@
+<header> 
+  <div> 
+    <button>클릭</button> 
+  </div> 
+</header> 
+<script> 
+  let $header = document.querySelector('header')
+  $header.addEventListener('click', ()=>{
+    alert('hello, event bubbling');
+  })
+</script>
